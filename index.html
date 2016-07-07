@@ -3,6 +3,11 @@
   <body>
     <div id="logged" style="display: none;">
       <button id="btnFetchAll">Fetch all contacts</button>
+      <form id="search">
+        <input id="query">
+      </form>
+    </div>
+    <div id="results">
     </div>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -13,7 +18,13 @@
         googleToken = token;
         document.getElementById('logged').style.display = 'block';
 
-        document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
+        //document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
+
+        document.getElementById('search').onsubmit = function(evt) {
+          evt.preventDefault();
+          var q = document.getElementById('query').value;
+          searchAndDisplay(token, q);
+        };
       });
     };
     </script>

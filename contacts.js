@@ -36,18 +36,28 @@ function fetchAll(token, url, handle) {
   });
 }
 
-function appendToPage(json) {
-  if (!json) {
-    alert('done! :-)');
-  } else {
-    document.body.innerHTML = document.body.innerHTML + json.feed.entry.map(function(entry){
-      return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
-    }).join('\n');
-  }
+function makeAppender(div) {
+  div.innerHTML = '';
+  return function (json) {
+    if (!json) {
+      alert('done! :-)');
+    } else {
+      div.innerHTML = div.innerHTML + (json.feed.entry || []).map(function(entry){
+        return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
+      }).join('\n');
+    }
+  };
 }
 
 function fetchAndDisplay(token) {
   var projection = 'property-content'; //'full';
   var url = 'https://www.google.com/m8/feeds/contacts/default/' + projection + '?alt=json&max-results=1000';
-  fetchAll(token, url, appendToPage);
+  fetchAll(token, url, makeAppender(document.getElementById('results')));
+}
+
+function searchAndDisplay(token, q) {
+  var projection = 'property-content'; //'full';
+  var url = 'https://www.google.com/m8/feeds/contacts/default/' + projection + '?alt=json&max-results=1000&v=3.0&q=' + encodeURIComponent(q);
+  console.log(url);
+  fetchAll(token, url, makeAppender(document.getElementById('results')));
 }
