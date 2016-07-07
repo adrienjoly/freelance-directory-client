@@ -12,17 +12,33 @@
           'scope': 'https://www.google.com/m8/feeds'
         };
         gapi.auth.authorize(config, function() {
-          fetch(gapi.auth.getToken());
+          fetchAll(gapi.auth.getToken());
         });
       }
-      function fetch(token) {
-        $.ajax({
-          url: 'https://www.google.com/m8/feeds/contacts/default/full?alt=json',
-          dataType: 'jsonp',
-          data: token
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
+      function fetchAll(token) {
+        function fetch(url) {
+          $.ajax({
+            url: url,
+            dataType: 'jsonp',
+            data: token
+          }).done(function(json) {
+            var next;
+            json.feed.link.map(function(link){
+              if (link.rel == 'next') {
+                next = link.href;
+              }
+            });
+            document.body.innerHTML = document.body.innerHTML + json.feed.entry.map(function(entry){
+              return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
+            }).join('\n');
+            if (next) {
+              fetch(next);
+            } else {
+              alert('done :-)');
+            }
           });
+        }
+        fetch('https://www.google.com/m8/feeds/contacts/default/full?alt=json');
       }
     </script>
   </head>
