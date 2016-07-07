@@ -15,7 +15,9 @@
     <script>
     window.onload = function() {
       auth(function(err, token){
-        googleToken = token;
+
+        appendCoucouToUser(token, 'default'); // default can be replaced by an email address
+
         document.getElementById('logged').style.display = 'block';
 
         //document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);

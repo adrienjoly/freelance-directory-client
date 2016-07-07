@@ -61,3 +61,34 @@ function searchAndDisplay(token, q) {
   console.log(url);
   fetchAll(token, url, makeAppender(document.getElementById('results')));
 }
+
+function fetchUser(token, email, callback) {
+  var url = '/m8/feeds/contacts/' + encodeURIComponent(email) + '/base/0';
+  /*
+  var prefix = 'http://www.google.com';
+  var params = '?alt=json';
+  query({
+    url: prefix + url + params,
+    dataType: 'jsonp',
+    data: token
+  }, callback);
+  */
+  console.log(url)
+  gapi.client.request({
+    'path': url,
+    'params': {'alt': 'json'}
+  }).then(function(json){
+    callback(null, json.result);
+  }, function(err){
+    console.error(err);
+    callback(err);
+  });
+}
+
+function appendCoucouToUser(token, email) {
+  fetchUser(token, email, function(err, json) {
+    console.log('appendCoucouToUser =>', json);
+    json.entry.content.$t += '\ncoucou!';
+    // TODO: use a POST request to the same URL with updated json data to update the user
+  });
+}
