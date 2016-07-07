@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- found here: https://gist.github.com/lupeke/6233678 -->
+<html>
+  <head>
+    <script src="https://apis.google.com/js/client.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script>
+      function auth() {
+        var config = {
+          'client_id': '847367303310-1cda1v65gotbpoqjehmhcc21dofjc00q.apps.googleusercontent.com',
+            // from https://console.developers.google.com/apis/credentials/wizard?api=contacts&project=open-1365
+          'scope': 'https://www.google.com/m8/feeds'
+        };
+        gapi.auth.authorize(config, function() {
+          fetch(gapi.auth.getToken());
+        });
+      }
+      function fetch(token) {
+        $.ajax({
+          url: 'https://www.google.com/m8/feeds/contacts/default/full?alt=json',
+          dataType: 'jsonp',
+          data: token
+        }).done(function(data) {
+            console.log(JSON.stringify(data));
+          });
+      }
+    </script>
+  </head>
+
+  <body>
+    <button onclick="auth();">GET CONTACTS FEED</button>
+  </body>
+</html>
