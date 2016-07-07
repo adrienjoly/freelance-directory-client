@@ -1,20 +1,16 @@
 <!doctype html>
-<!-- found here: https://gist.github.com/lupeke/6233678 -->
 <html>
-  <head>
+  <body>
+    <button id="btnFetchAll">Fetch all contacts</button>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="contacts.js"></script>
     <script>
-    function authThenFetch() {
+    document.getElementById('btnFetchAll').onclick = function authThenFetch() {
       auth(function(err, token){
         fetchAndDisplay(token);
       });
-    }
+    };
     </script>
-  </head>
-
-  <body>
-    <button onclick="authThenFetch();">GET CONTACTS FEED</button>
   </body>
 </html>
