@@ -4,47 +4,17 @@
   <head>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="contacts.js"></script>
     <script>
-      function auth() {
-        var config = {
-          'client_id': '847367303310-1cda1v65gotbpoqjehmhcc21dofjc00q.apps.googleusercontent.com',
-            // from https://console.developers.google.com/apis/credentials/wizard?api=contacts&project=open-1365
-          'scope': 'https://www.google.com/m8/feeds'
-        };
-        gapi.auth.authorize(config, function() {
-          fetchAll(gapi.auth.getToken());
-        });
-      }
-      function fetchAll(token) {
-        function fetch(url) {
-          $.ajax({
-            url: url,
-            dataType: 'jsonp',
-            data: token
-          }).done(function(json) {
-            var next;
-            json.feed.link.map(function(link){
-              if (link.rel == 'next') {
-                next = link.href;
-              }
-            });
-            document.body.innerHTML = document.body.innerHTML + json.feed.entry.map(function(entry){
-              return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
-            }).join('\n');
-            if (next) {
-              fetch(next);
-            } else {
-              alert('done :-)');
-            }
-          });
-        }
-        var projection = 'property-content'; //'full';
-        fetch('https://www.google.com/m8/feeds/contacts/default/' + projection + '?alt=json&max-results=1000');
-      }
+    function authThenFetch() {
+      auth(function(err, token){
+        fetchAndDisplay(token);
+      });
+    }
     </script>
   </head>
 
   <body>
-    <button onclick="auth();">GET CONTACTS FEED</button>
+    <button onclick="authThenFetch();">GET CONTACTS FEED</button>
   </body>
 </html>
