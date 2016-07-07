@@ -1,14 +1,19 @@
 <!doctype html>
 <html>
   <body>
-    <button id="btnFetchAll">Fetch all contacts</button>
+    <div id="logged" style="display: none;">
+      <button id="btnFetchAll">Fetch all contacts</button>
+    </div>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="contacts.js"></script>
     <script>
-    document.getElementById('btnFetchAll').onclick = function authThenFetch() {
+    window.onload = function() {
       auth(function(err, token){
-        fetchAndDisplay(token);
+        googleToken = token;
+        document.getElementById('logged').style.display = 'block';
+
+        document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
       });
     };
     </script>
