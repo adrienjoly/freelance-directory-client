@@ -1,6 +1,11 @@
 var CLIENT_ID = '847367303310-1cda1v65gotbpoqjehmhcc21dofjc00q.apps.googleusercontent.com';
   // from https://console.developers.google.com/apis/credentials/wizard?api=contacts&project=open-1365
 
+function throwError(err) {
+  console.error(err);
+  throw err;
+}
+
 function auth(callback) {
   var config = {
     'client_id': CLIENT_ID,
@@ -15,7 +20,12 @@ function query(param, callback) {
   $.ajax(param).done(callback);
 }
 
-function fetchAll(token, url, handle) {
+function fetchAll(token, opt, handle) {
+  var projection = 'property-content'; //'full';
+  var path = '/m8/feeds/contacts/default/' + projection;
+  // jquery-based implementation:
+  var prefix = 'https://www.google.com';
+  var url = opt.url || (prefix + path + '?alt=json&max-results=1000&v=3.0&q=' + (opt.q ? encodeURIComponent(opt.q) : ''))
   query({
     url: url,
     dataType: 'jsonp',
@@ -29,11 +39,37 @@ function fetchAll(token, url, handle) {
     });
     handle(json);
     if (next) {
-      fetchAll(token, next, handle);
+      fetchAll(token, { url: next }, handle);
     } else {
       handle();
     }
   });
+  /*
+  // this implementation does not require jquery but is a bit slower:
+  gapi.client.request(opt.url || {
+    'path': path,
+    'params': {
+      'alt': 'json',
+      'max-results': 1000,
+      'v': '3.0',
+      'q': opt.q ? encodeURIComponent(opt.q) : undefined
+    }
+  }).then(function(res){
+    var json = res.result;
+    var next;
+    json.feed.link.map(function(link){
+      if (link.rel == 'next') {
+        next = link.href;
+      }
+    });
+    handle(json);
+    if (next) {
+      fetchAll(token, { url: next }, handle);
+    } else {
+      handle();
+    }
+  }, throwError);
+  */
 }
 
 function appendEntries(div, entries) {  
@@ -54,16 +90,11 @@ function makeAppender(div) {
 }
 
 function fetchAndDisplay(token) {
-  var projection = 'property-content'; //'full';
-  var url = 'https://www.google.com/m8/feeds/contacts/default/' + projection + '?alt=json&max-results=1000';
-  fetchAll(token, url, makeAppender(document.getElementById('results')));
+  fetchAll(token, {}, makeAppender(document.getElementById('results')));
 }
 
 function searchAndDisplay(token, q) {
-  var projection = 'property-content'; //'full';
-  var url = 'https://www.google.com/m8/feeds/contacts/default/' + projection + '?alt=json&max-results=1000&v=3.0&q=' + encodeURIComponent(q);
-  console.log(url);
-  fetchAll(token, url, makeAppender(document.getElementById('results')));
+  fetchAll(token, { q: q }, makeAppender(document.getElementById('results')));
 }
 
 function fetchUser(token, userId, callback) {

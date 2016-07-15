@@ -30,7 +30,7 @@
         document.getElementById('fetch').onsubmit = function(evt) {
           evt.preventDefault();
           var contactId = document.getElementById('fetchContactId').value;
-          fetchUser(token, contactId, function(res){
+          fetchUser(token, contactId, function(err, res){
             console.log(arguments);
             appendEntries(document.getElementById('results'), [ res.entry ]);
           });
