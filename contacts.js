@@ -99,27 +99,28 @@ function searchAndDisplay(token, q) {
 
 function fetchUser(token, userId, callback) {
   var url = '/m8/feeds/contacts/default/base/' + encodeURIComponent('' + (userId || 0));
-
-  var prefix = 'http://www.google.com';
-  var params = '?alt=json';
-  query({
-    url: prefix + url + params,
-    dataType: 'jsonp',
-    data: token
-  }, callback);
-  /*
   gapi.client.request({
     'path': url,
     'params': {'alt': 'json'}
+  }).then(function(json){
+    callback(null, json.result);
+  }, throwError);
+}
+
+function updateUser(token, email, json, callback) {
+  var url = '/m8/feeds/contacts/' + encodeURIComponent(email) + '/base/0';
+  // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiclientrequest
+  gapi.client.request({
+    'path': url,
+    'method': 'POST',
+    'params': {'alt': 'json'},
+    'body': json
   }).then(function(json){
     callback(null, json.result);
   }, function(err){
     console.error(err);
     callback(err);
   });
-  */
-}
-
 }
 
 function appendCoucouToUser(token, email) {
