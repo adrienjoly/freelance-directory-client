@@ -2,9 +2,11 @@
 <html>
   <body>
     <div id="logged" style="display: none;">
-      <button id="btnFetchAll">Fetch all contacts</button>
+      <button id="btnFetchAll">List all contacts</button>
       <form id="search">
+        Search contact:
         <input id="query">
+        <input type="submit" value="OK">
       </form>
     </div>
     <div id="results">
@@ -16,11 +18,9 @@
     window.onload = function() {
       auth(function(err, token){
 
-        appendCoucouToUser(token, 'default'); // default can be replaced by an email address
-
         document.getElementById('logged').style.display = 'block';
 
-        //document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
+        document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
 
         document.getElementById('search').onsubmit = function(evt) {
           evt.preventDefault();
