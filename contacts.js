@@ -36,15 +36,19 @@ function fetchAll(token, url, handle) {
   });
 }
 
+function appendEntries(div, entries) {  
+  div.innerHTML = div.innerHTML + entries.map(function(entry){
+    return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
+  }).join('\n');
+}
+
 function makeAppender(div) {
   div.innerHTML = '';
   return function (json) {
     if (!json) {
       console.info('done! :-)');
     } else {
-      div.innerHTML = div.innerHTML + (json.feed.entry || []).map(function(entry){
-        return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
-      }).join('\n');
+      appendEntries(div, json.feed.entry || []);
     }
   };
 }
