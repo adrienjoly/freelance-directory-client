@@ -22,11 +22,16 @@
     </div>
     <pre id="results">
     </pre>
+    <a href="web+fdupdate:test">Test custom protocol handler</a>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="contacts.js"></script>
     <script>
+
     window.onload = function() {
+
+      navigator.registerProtocolHandler('web+fdupdate', window.location.href + '/?fdupdate=%s', 'Freelance Directory Update');
+
       auth(function(err, token){
 
         document.getElementById('logged').style.display = 'block';
