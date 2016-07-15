@@ -21,7 +21,7 @@ function query(param, callback) {
 }
 
 function fetchAll(token, opt, handle) {
-  var projection = 'property-content'; //'full';
+  var projection = opt.projection || 'full';
   var path = '/m8/feeds/contacts/default/' + projection;
   // jquery-based implementation:
   var prefix = 'https://www.google.com';
@@ -74,27 +74,45 @@ function fetchAll(token, opt, handle) {
 
 function appendEntries(div, entries) {  
   div.innerHTML = div.innerHTML + entries.map(function(entry){
-    return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
-  }).join('\n');
+    var name = (entry.title || {}).$t;
+    var notes = ((entry.content || {}).$t || '').replace(/\n/g, ' // ');
+    return name || notes ? name + ' : ' + notes + '\n' : '';
+  }).join('');
 }
 
-function makeAppender(div) {
+function appendJsonEntries(div, entries) {  
+  div.innerHTML = div.innerHTML + entries.map(function(entry){
+    var fields = {};
+    Object.keys(entry).map(function(field) {
+      if (entry[field].$t) {
+        fields[field] = entry[field].$t;
+      }
+    });
+    return JSON.stringify(entry, null, '  ') + '\n';
+  }).join('');
+}
+
+function makeAppender(div, appendFct) {
   div.innerHTML = '';
   return function (json) {
     if (!json) {
       console.info('done! :-)');
     } else {
-      appendEntries(div, json.feed.entry || []);
+      (appendFct || appendEntries)(div, json.feed.entry || []);
     }
   };
 }
 
 function fetchAndDisplay(token) {
-  fetchAll(token, {}, makeAppender(document.getElementById('results')));
+  fetchAll(token, { projection: 'property-content' }, makeAppender(document.getElementById('results')));
 }
 
 function searchAndDisplay(token, q) {
-  fetchAll(token, { q: q }, makeAppender(document.getElementById('results')));
+  fetchAll(token, { projection: 'property-content', q: q }, makeAppender(document.getElementById('results')));
+}
+
+function backupAndDisplay(token) {
+  fetchAll(token, { projection: 'full' }, makeAppender(document.getElementById('results'), appendJsonEntries));
 }
 
 function fetchUser(token, userId, callback) {

@@ -3,6 +3,7 @@
   <body>
     <div id="logged" style="display: none;">
       <button id="btnFetchAll">List all contacts</button>
+      <button id="btnBackup">Backup contacts</button>
       <form id="search">
         Search contact:
         <input id="query">
@@ -19,8 +20,8 @@
         <input type="submit" value="OK">
       </form>
     </div>
-    <div id="results">
-    </div>
+    <pre id="results">
+    </pre>
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="contacts.js"></script>
@@ -31,6 +32,8 @@
         document.getElementById('logged').style.display = 'block';
 
         document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
+
+        document.getElementById('btnBackup').onclick = backupAndDisplay.bind(null, token);
 
         document.getElementById('fetch').onsubmit = function(evt) {
           evt.preventDefault();
