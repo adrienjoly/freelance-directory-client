@@ -98,35 +98,39 @@ function searchAndDisplay(token, q) {
 }
 
 function fetchUser(token, userId, callback) {
-  var url = '/m8/feeds/contacts/default/base/' + encodeURIComponent('' + (userId || 0));
+  var url = '/m8/feeds/contacts/default/full/' + encodeURIComponent('' + (userId || 0));
   gapi.client.request({
     'path': url,
     'params': {'alt': 'json'}
   }).then(function(json){
     callback(null, json.result);
-  }, throwError);
+  }, callback || throwError);
 }
 
-function updateUser(token, email, json, callback) {
-  var url = '/m8/feeds/contacts/' + encodeURIComponent(email) + '/base/0';
+function updateUser(token, userId, json, callback) {
+  // use a PUT request to the same URL with updated json data to update the user
+  // cf https://developers.google.com/google-apps/contacts/v3/?csw=1#Updating
+  var url = '/m8/feeds/contacts/default/full/' + encodeURIComponent('' + (userId || 0));
   // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiclientrequest
   gapi.client.request({
     'path': url,
-    'method': 'POST',
+    'method': 'PUT',
     'params': {'alt': 'json'},
+    'headers': {'ETag': '*', 'If-Match': '*'}, // needed to avoid error 400 Missing resource version ID
     'body': json
   }).then(function(json){
     callback(null, json.result);
-  }, function(err){
-    console.error(err);
-    callback(err);
-  });
+  }, callback || throwError);
 }
 
-function appendCoucouToUser(token, email) {
-  fetchUser(token, email, function(err, json) {
-    console.log('appendCoucouToUser =>', json);
+function appendCoucouToUser(token, userId) {
+  fetchUser(token, userId, function(err, json) {
+    console.log('appendCoucouToUser 1 =>', err || json);
+    if (err) return;
     json.entry.content.$t += '\ncoucou!';
-    // TODO: use a POST request to the same URL with updated json data to update the user
+    console.log('new user data:', json.entry);
+    updateUser(token, userId, json, function(err, res) {
+      console.log('appendCoucouToUser 2 =>', err || res);
+    });
   });
 }
