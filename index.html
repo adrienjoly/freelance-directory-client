@@ -8,6 +8,11 @@
         <input id="query">
         <input type="submit" value="OK">
       </form>
+      <form id="fetch">
+        Display contact by id:
+        <input id="fetchContactId" value="0">
+        <input type="submit" value="OK">
+      </form>
     </div>
     <div id="results">
     </div>
@@ -21,6 +26,15 @@
         document.getElementById('logged').style.display = 'block';
 
         document.getElementById('btnFetchAll').onclick = fetchAndDisplay.bind(null, token);
+
+        document.getElementById('fetch').onsubmit = function(evt) {
+          evt.preventDefault();
+          var contactId = document.getElementById('fetchContactId').value;
+          fetchUser(token, contactId, function(res){
+            console.log(arguments);
+            appendEntries(document.getElementById('results'), [ res.entry ]);
+          });
+        };
 
         document.getElementById('search').onsubmit = function(evt) {
           evt.preventDefault();

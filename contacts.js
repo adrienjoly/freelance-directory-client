@@ -66,9 +66,9 @@ function searchAndDisplay(token, q) {
   fetchAll(token, url, makeAppender(document.getElementById('results')));
 }
 
-function fetchUser(token, email, callback) {
-  var url = '/m8/feeds/contacts/' + encodeURIComponent(email) + '/base/0';
-  /*
+function fetchUser(token, userId, callback) {
+  var url = '/m8/feeds/contacts/default/base/' + encodeURIComponent('' + (userId || 0));
+
   var prefix = 'http://www.google.com';
   var params = '?alt=json';
   query({
@@ -76,8 +76,7 @@ function fetchUser(token, email, callback) {
     dataType: 'jsonp',
     data: token
   }, callback);
-  */
-  console.log(url)
+  /*
   gapi.client.request({
     'path': url,
     'params': {'alt': 'json'}
@@ -87,6 +86,9 @@ function fetchUser(token, email, callback) {
     console.error(err);
     callback(err);
   });
+  */
+}
+
 }
 
 function appendCoucouToUser(token, email) {
