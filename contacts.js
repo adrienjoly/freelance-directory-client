@@ -40,7 +40,7 @@ function makeAppender(div) {
   div.innerHTML = '';
   return function (json) {
     if (!json) {
-      alert('done! :-)');
+      console.info('done! :-)');
     } else {
       div.innerHTML = div.innerHTML + (json.feed.entry || []).map(function(entry){
         return '<li>' + (entry.title || {}).$t + ' : ' + (entry.content || {}).$t + '</li>';
