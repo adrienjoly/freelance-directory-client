@@ -24,7 +24,7 @@
     </pre>
 
     <button id="btnRegisterProtocol">Register protocol</button>
-    <a href="web+fdupdate:test">Test custom protocol handler</a>
+    <a href="web+fdupdate:scott@whyd.com/github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10">Test custom protocol handler</a>
 
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -34,10 +34,35 @@
     window.onload = function() {
 
       document.getElementById('btnRegisterProtocol').onclick = function() {
-        navigator.registerProtocolHandler('web+fdupdate', window.location.href + '?fdupdate=%s', 'Freelance Directory Update');
+        var host = window.location.href.split('/').slice(0, 3).join('/');
+        console.log('host', host);
+        navigator.registerProtocolHandler('web+fdupdate', host + '?fdupdate=%s', 'Freelance Directory Update');
       }
 
       auth(function(err, token){
+
+        var fdupdate = decodeURIComponent(window.location.href.split(/[\?\&]fdupdate=/)[1] || '');
+        if (fdupdate) {
+          var RE_FDUPDATE = /^[^\:]+\:([^\/]+)\/(.+)$/;
+          var parts = RE_FDUPDATE.exec(fdupdate);
+          var email = parts[1];
+          var updUrl = parts[2]
+            .replace('github.com', 'https://api.github.com/repos')
+            .replace('/commit/', '/commits/')
+            .replace(/\/$/, ''); // remove trailing slash
+          console.log(updUrl, '...');
+          query({
+            url: updUrl,
+            dataType: 'jsonp'
+          }, function(json) {
+            console.log('=> github json:', json);
+            var dataUrl = json.data.files[0].contents_url;
+            query(dataUrl, function(json) {
+              //console.log('=> content:', json);
+              console.log('=> update data:', atob(json.content)); // decode base64 string
+            });
+          });
+        }
 
         document.getElementById('logged').style.display = 'block';
 
