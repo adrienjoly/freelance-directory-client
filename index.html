@@ -34,9 +34,7 @@
     window.onload = function() {
 
       document.getElementById('btnRegisterProtocol').onclick = function() {
-        var host = window.location.href; //.split('/').slice(0, 3).join('/');
-        console.log('host', host);
-        navigator.registerProtocolHandler('web+fdupdate', host + '?fdupdate=%s', 'Freelance Directory Update');
+        navigator.registerProtocolHandler('web+fdupdate', window.location.href + '?fdupdate=%s', 'Freelance Directory Update');
       }
 
       auth(function(err, token){
@@ -60,6 +58,7 @@
             query(dataUrl, function(json) {
               //console.log('=> content:', json);
               console.log('=> update data:', atob(json.content)); // decode base64 string
+              alert('incoming contact update! => contents:\n' + atob(json.content));
             });
           });
         }
