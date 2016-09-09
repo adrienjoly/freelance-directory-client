@@ -107,6 +107,10 @@ function searchContacts(token, q, handler) {
   fetchAll(token, { projection: 'property-content', q: q }, handler);
 }
 
+function searchFullContacts(token, q, handler) {
+  fetchAll(token, { projection: 'full', q: q }, handler);
+}
+
 function fetchContact(token, userId, callback) {
   var url = '/m8/feeds/contacts/default/full/' + encodeURIComponent('' + (userId || 0));
   gapi.client.request({

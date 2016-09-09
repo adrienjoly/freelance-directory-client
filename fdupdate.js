@@ -1,17 +1,5 @@
 (function(){
 
-  function appendCoucouToUser(token, userId) {
-    fetchContact(token, userId, function(err, json) {
-      console.log('appendCoucouToUser 1 =>', err || json);
-      if (err) return;
-      json.entry.content.$t += '\ncoucou!';
-      console.log('new user data:', json.entry);
-      updateContact(token, userId, json, function(err, res) {
-        console.log('appendCoucouToUser 2 =>', err || res);
-      });
-    });
-  }
-
   function parseFdUpdateParam(fdupdate) {
     var RE_FDUPDATE = /^[^\:]+\:([^\/]+)\/(.+)$/;
     var parts = RE_FDUPDATE.exec(fdupdate);
@@ -40,6 +28,37 @@
     });
   }
 
+  function makeAccumulator(callback, data) {
+    var allItems = [];
+    return function accumulate(items) {
+      if (!items) {
+        callback(null, allItems, data);
+      } else {
+        allItems = allItems.concat(items);
+      }
+    };
+  }
+
+  function searchContactByEmail(email, callback) {
+    console.log('auth to google contacts...');
+    auth(function(err, token){
+      console.log('search by email:', email, '...');
+      searchFullContacts(token, email, makeAccumulator(callback, token));
+    });
+  }
+
+  function appendCoucouToUser(token, userId) {
+    fetchContact(token, userId, function(err, json) {
+      console.log('appendCoucouToUser 1 =>', err || json);
+      if (err) return;
+      json.entry.content.$t += '\ncoucou!';
+      console.log('new user data:', json.entry);
+      updateContact(token, userId, json, function(err, res) {
+        console.log('appendCoucouToUser 2 =>', err || res);
+      });
+    });
+  }
+
   var fdupdate = decodeURIComponent(window.location.href.split(/[\?\&]fdupdate=/)[1] || '');
   console.log('fdupdate parameter:', fdupdate);
   if (fdupdate) {
@@ -52,27 +71,31 @@
       } else {
         $('h1').text('Store update?');
         $('pre').text(profileInfo);
+        searchContactByEmail(update.email, function(err, contacts, token){
+          if (!contacts || !contacts.length) {
+            alert('warning: found no matching contact for this email address...');
+            // TODO: allow user to select contact manually (or to add it?)
+          } else if (contacts.length > 1) {
+            alert('warning: more than one contact matches this email address...');
+            // TODO: allow user to select contact manually (or to add it?)
+          } else {
+            console.log('=>contact:', contacts);
+            /*
+            var contactEmail = contacts[0].feed.id.$t;
+            fetchContactByEmail(token, contactEmail, function(err, res){
+              console.log('=>contact:', res);
+              console.log('=>entries:', res.feed.entry.map(function(entry){
+                var name = (entry.title || {}).$t;
+                var notes = ((entry.content || {}).$t || '').replace(/\n/g, ' // ');
+                return name || notes ? name + ' : ' + notes + '\n' : '';
+              }).join(''));
+            });
+            */
+            // TODO: if user accepts => store update in corresponding google contact
+          }
+        });
       }
     });
-    // TODO: if user accepts => store update in corresponding google contact
-    /*
-    auth(function(err, token){
-      document.getElementById('fetch').onsubmit = function(evt) {
-        evt.preventDefault();
-        var contactId = document.getElementById('fetchContactId').value;
-        fetchUser(token, contactId, function(err, res){
-          console.log(arguments);
-          appendEntries(document.getElementById('results'), [ res.entry ]);
-        });
-      };
-
-      document.getElementById('append').onsubmit = function(evt) {
-        evt.preventDefault();
-        var contactId = document.getElementById('appendContactId').value;
-        appendCoucouToUser(token, contactId);
-      };
-    });
-    */
   } else {
     $('h1').text('Oops, I can\'t find a valid fdupdate in this URL!');
   }
