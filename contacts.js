@@ -1,5 +1,5 @@
 var CLIENT_ID = '847367303310-1cda1v65gotbpoqjehmhcc21dofjc00q.apps.googleusercontent.com';
-  // from https://console.developers.google.com/apis/credentials/wizard?api=contacts&project=open-1365
+  // from https://console.developers.google.com/apis/credentials?project=open-1365
 
 function throwError(err) {
   console.error(err);
