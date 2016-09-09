@@ -34,36 +34,12 @@
     window.onload = function() {
 
       document.getElementById('btnRegisterProtocol').onclick = function() {
+        var url = window.location.href.replace('contacts.html', 'fdupdate.html'). + '?fdupdate=%s';
         // /!\ this may not work from localhost
-        navigator.registerProtocolHandler('web+fdupdate', window.location.href + '?fdupdate=%s', 'Freelance Directory Update');
+        navigator.registerProtocolHandler('web+fdupdate', url, 'Freelance Directory Update');
       }
 
       auth(function(err, token){
-
-        var fdupdate = decodeURIComponent(window.location.href.split(/[\?\&]fdupdate=/)[1] || '');
-        if (fdupdate) {
-          var RE_FDUPDATE = /^[^\:]+\:([^\/]+)\/(.+)$/;
-          var parts = RE_FDUPDATE.exec(fdupdate);
-          var email = parts[1];
-          var updUrl = parts[2]
-            .replace('github.com', 'https://api.github.com/repos')
-            .replace('/commit/', '/commits/')
-            .replace(/\/$/, ''); // remove trailing slash
-          console.log(updUrl, '...');
-          query({
-            url: updUrl,
-            dataType: 'jsonp'
-          }, function(json) {
-            console.log('=> github json:', json);
-            var dataUrl = json.data.files[0].contents_url;
-            query(dataUrl, function(json) {
-              //console.log('=> content:', json);
-              console.log('=> update data:', atob(json.content)); // decode base64 string
-              alert('incoming contact update! => contents:\n' + atob(json.content));
-            });
-          });
-          // TODO: if user accepts => store update in corresponding google contact
-        }
 
         document.getElementById('logged').style.display = 'block';
 
