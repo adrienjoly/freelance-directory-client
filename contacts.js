@@ -40,7 +40,7 @@ function auth(callback) {
 }
 
 function query(param, callback) {
-  $.ajax(param).done(callback);
+  $.ajax(param).done(callback.bind(null, null)).fail(callback);
 }
 
 function fetchAll(token, opt, handle) {
@@ -53,7 +53,7 @@ function fetchAll(token, opt, handle) {
     url: url,
     dataType: 'jsonp',
     data: token
-  }, function(json) {
+  }, function(err, json) {
     var next;
     json.feed.link.map(function(link){
       if (link.rel == 'next') {
