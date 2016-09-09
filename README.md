@@ -52,6 +52,33 @@ A personal directory in which I can add my freelance friends, look for relevant 
     + Open the copied URL (`web+fdupdate://...`) in a new tab => the app should open and display the content of the incoming update (a github commit)
     + In the future, you will be able to append up-to-date availability information from a freelancing friend into your corresponding Google Contact. This information will be stored in a Github commit, and pushed to you by email, in the form of a `web+fdupdate://...` link. :-)
 
+## Syntax of custom update URLs
+
+Syntax: `web+fdupdate:<EMAIL>/github.com/<USERNAME>/<REPONAME>/commit/<COMMIT>`
+
+Sample URL: `web+fdupdate:scott@whyd.com/github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10`
+
+The sample URL above informs `freelance-directory-client` that:
+
+- your friend Scott whose email address is `scott@whyd.com` has updated his freelancing info;
+- this update is stored in a commit that can be found there: [github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10](http://github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10), which contains:
+
+```
+<freelance-directory-profile>
+#nodejs #meteorjs #reactjs #mongodb developer.
+rate: 120€/hour
+availability: half-time starting in mid-august
+preferences: remote work only
+</freelance-directory-profile>
+```
+
+For instance, this update contains:
+
+- technologies that Scott works on professionally, in the form of hashtags;
+- Scott's current hourly rate;
+- his current availability;
+- and his current preferences.
+
 ## Forking instructions
 
 - After forking, don't forget to set your own Google Client id in `contacts.js`
