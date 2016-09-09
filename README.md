@@ -79,6 +79,12 @@ For instance, this update contains:
 - his current availability;
 - and his current preferences.
 
+## Next steps
+
+- Actually store updates from custom URLs into the corresponding contact
+- Design an actual UI for the product
+- Design+copywriting: make an explanatory landing page with a Google Connect button
+
 ## Forking instructions
 
 - After forking, don't forget to set your own Google Client id in `contacts.js`
