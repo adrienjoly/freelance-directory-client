@@ -13,6 +13,7 @@
   <script>
   window.onload = function() {
     var fdupdate = decodeURIComponent(window.location.href.split(/[\?\&]fdupdate=/)[1] || '');
+    console.log('fdupdate parameter:', fdupdate);
     if (fdupdate) {
       var RE_FDUPDATE = /^[^\:]+\:([^\/]+)\/(.+)$/;
       var parts = RE_FDUPDATE.exec(fdupdate);
@@ -21,17 +22,21 @@
         .replace('github.com', 'https://api.github.com/repos')
         .replace('/commit/', '/commits/')
         .replace(/\/$/, ''); // remove trailing slash
-      $('h1').text(updUrl + '...');
+      console.log('fetching', updUrl, '...');
+      $('h1').text('Fetching commit...');
       query({
         url: updUrl,
         dataType: 'jsonp'
       }, function(json) {
         console.log('=> github json:', json);
         var dataUrl = json.data.files[0].contents_url;
-        $('h1').text(dataUrl + '...');
+        console.log('fetching', dataUrl, '...');
+        $('h1').text('Fetching update...');
         query(dataUrl, function(json) {
+          var profileInfo = atob(json.content);
+          console.log('=> commit content:', json);
           $('h1').text('Store update?');
-          $('pre').text(atob(json.content));
+          $('pre').text(profileInfo);
         });
       });
       // TODO: if user accepts => store update in corresponding google contact
