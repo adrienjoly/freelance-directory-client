@@ -34,7 +34,8 @@
     window.onload = function() {
 
       document.getElementById('btnRegisterProtocol').onclick = function() {
-        var url = window.location.href.replace('contacts.html', 'fdupdate.html') + '?fdupdate=%s';
+        var url = window.location.href.replace(/contacts\.html.*/, 'fdupdate.html') + '?fdupdate=%s';
+        console.log('btnRegisterProtocol:', url);
         // /!\ this may not work from localhost
         navigator.registerProtocolHandler('web+fdupdate', url, 'Freelance Directory Update');
       }
