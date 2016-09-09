@@ -17,11 +17,6 @@
         <input id="fetchContactId" value="0">
         <input type="submit" value="OK">
       </form>
-      <form id="append">
-        Append note to contact:
-        <input id="appendContactId" value="0">
-        <input type="submit" value="OK">
-      </form>
     </div>
     <pre id="results">
     </pre>
@@ -108,12 +103,6 @@
             console.log(arguments);
             appendEntries(resultsDiv, [ res.entry ]);
           });
-        };
-
-        document.getElementById('append').onsubmit = function(evt) {
-          evt.preventDefault();
-          var contactId = document.getElementById('appendContactId').value;
-          appendCoucouToUser(token, contactId);
         };
 
       });

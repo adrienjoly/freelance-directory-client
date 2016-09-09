@@ -132,15 +132,3 @@ function updateContact(token, userId, json, callback) {
     callback(null, json.result);
   }, callback || throwError);
 }
-
-function appendCoucouToUser(token, userId) {
-  fetchContact(token, userId, function(err, json) {
-    console.log('appendCoucouToUser 1 =>', err || json);
-    if (err) return;
-    json.entry.content.$t += '\ncoucou!';
-    console.log('new user data:', json.entry);
-    updateContact(token, userId, json, function(err, res) {
-      console.log('appendCoucouToUser 2 =>', err || res);
-    });
-  });
-}
