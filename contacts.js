@@ -95,50 +95,19 @@ function fetchAll(token, opt, handle) {
   */
 }
 
-function appendEntries(div, entries) {  
-  div.innerHTML = div.innerHTML + entries.map(function(entry){
-    var name = (entry.title || {}).$t;
-    var notes = ((entry.content || {}).$t || '').replace(/\n/g, ' // ');
-    return name || notes ? name + ' : ' + notes + '\n' : '';
-  }).join('');
+function fetchAllContacts(token, handler) {
+  fetchAll(token, { projection: 'property-content' }, handler);
 }
 
-function appendJsonEntries(div, entries) {  
-  div.innerHTML = div.innerHTML + entries.map(function(entry){
-    var fields = {};
-    Object.keys(entry).map(function(field) {
-      if (entry[field].$t) {
-        fields[field] = entry[field].$t;
-      }
-    });
-    return JSON.stringify(entry, null, '  ') + '\n';
-  }).join('');
+function backupAllContacts(token, handler) {
+  fetchAll(token, { projection: 'full' }, handler);
 }
 
-function makeAppender(div, appendFct) {
-  div.innerHTML = '';
-  return function (json) {
-    if (!json) {
-      console.info('done! :-)');
-    } else {
-      (appendFct || appendEntries)(div, json.feed.entry || []);
-    }
-  };
+function searchContacts(token, q, handler) {
+  fetchAll(token, { projection: 'property-content', q: q }, handler);
 }
 
-function fetchAndDisplay(token) {
-  fetchAll(token, { projection: 'property-content' }, makeAppender(document.getElementById('results')));
-}
-
-function searchAndDisplay(token, q) {
-  fetchAll(token, { projection: 'property-content', q: q }, makeAppender(document.getElementById('results')));
-}
-
-function backupAndDisplay(token) {
-  fetchAll(token, { projection: 'full' }, makeAppender(document.getElementById('results'), appendJsonEntries));
-}
-
-function fetchUser(token, userId, callback) {
+function fetchContact(token, userId, callback) {
   var url = '/m8/feeds/contacts/default/full/' + encodeURIComponent('' + (userId || 0));
   gapi.client.request({
     'path': url,
@@ -148,7 +117,7 @@ function fetchUser(token, userId, callback) {
   }, callback || throwError);
 }
 
-function updateUser(token, userId, json, callback) {
+function updateContact(token, userId, json, callback) {
   // use a PUT request to the same URL with updated json data to update the user
   // cf https://developers.google.com/google-apps/contacts/v3/?csw=1#Updating
   var url = '/m8/feeds/contacts/default/full/' + encodeURIComponent('' + (userId || 0));
@@ -165,12 +134,12 @@ function updateUser(token, userId, json, callback) {
 }
 
 function appendCoucouToUser(token, userId) {
-  fetchUser(token, userId, function(err, json) {
+  fetchContact(token, userId, function(err, json) {
     console.log('appendCoucouToUser 1 =>', err || json);
     if (err) return;
     json.entry.content.$t += '\ncoucou!';
     console.log('new user data:', json.entry);
-    updateUser(token, userId, json, function(err, res) {
+    updateContact(token, userId, json, function(err, res) {
       console.log('appendCoucouToUser 2 =>', err || res);
     });
   });
