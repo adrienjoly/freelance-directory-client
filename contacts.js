@@ -11,7 +11,8 @@ function auth(callback) {
     'client_id': CLIENT_ID,
     'scope': 'https://www.google.com/m8/feeds'
   };
-  gapi.auth.authorize(config, function() {
+  gapi.auth.authorize(config, function(res) {
+    console.log('gapi.auth.authorize =>', res);
     callback(null, gapi.auth.getToken());
   });
 }

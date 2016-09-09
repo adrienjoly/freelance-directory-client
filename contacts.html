@@ -33,6 +33,8 @@
 
     window.onload = function() {
 
+      console.log('√ onload');
+
       document.getElementById('btnRegisterProtocol').onclick = function() {
         var url = window.location.href.replace(/contacts\.html.*/, 'fdupdate.html') + '?fdupdate=%s';
         console.log('btnRegisterProtocol:', url);
@@ -41,6 +43,12 @@
       }
 
       auth(function(err, token){
+
+        if (err) {
+          console.error('auth =>', err);
+        } else {
+          console.log('√ auth');
+        }
 
         document.getElementById('logged').style.display = 'block';
 
