@@ -6,14 +6,36 @@ function throwError(err) {
   throw err;
 }
 
-function auth(callback) {
+function authPopup(callback) {
   var config = {
     'client_id': CLIENT_ID,
     'scope': 'https://www.google.com/m8/feeds'
   };
   gapi.auth.authorize(config, function(res) {
     console.log('gapi.auth.authorize =>', res);
-    callback(null, gapi.auth.getToken());
+    if (res.error) {
+      alert(res.error);
+      window.location.href = window.location.href.substr(0, window.location.href.lastIndexOf('/') + 1);
+    } else {
+      callback(null, gapi.auth.getToken());
+    }
+  });
+}
+
+function auth(callback) {
+  var config = {
+    'immediate': true,
+    'client_id': CLIENT_ID,
+    'scope': 'https://www.google.com/m8/feeds'
+  };
+  gapi.auth.authorize(config, function(res) {
+    console.log('gapi.auth.authorize =>', res);
+    if (res.error) {
+      alert(res.error);
+      window.location.href = window.location.href.substr(0, window.location.href.lastIndexOf('/') + 1);
+    } else {
+      callback(null, gapi.auth.getToken());
+    }
   });
 }
 
