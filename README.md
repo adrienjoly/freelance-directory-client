@@ -19,7 +19,8 @@ A personal directory in which I can add my freelance friends, look for relevant 
 
 - https://www.getrevue.co/profile/aj-sideprojects/issues/side-project-6-freelance-directory-client-23842
 - client: https://github.com/adrienjoly/freelance-directory-client
-- server: TODO
+- sample profile: https://github.com/adrienjoly/freelance-directory-profile (fork it and put your info!)
+- server: TODO?
 
 ##Use cases
 
@@ -57,6 +58,8 @@ A personal directory in which I can add my freelance friends, look for relevant 
 Syntax: `web+fdupdate:<EMAIL>/github.com/<USERNAME>/<REPONAME>/commit/<COMMIT>`
 
 Sample URL: `web+fdupdate:scott@whyd.com/github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10`
+
+Sample commit: https://github.com/adrienjoly/freelance-directory-profile
 
 The sample URL above informs `freelance-directory-client` that:
 
