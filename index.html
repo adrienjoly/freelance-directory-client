@@ -34,7 +34,7 @@
     window.onload = function() {
 
       document.getElementById('btnRegisterProtocol').onclick = function() {
-        var host = window.location.href.split('/').slice(0, 3).join('/');
+        var host = window.location.href; //.split('/').slice(0, 3).join('/');
         console.log('host', host);
         navigator.registerProtocolHandler('web+fdupdate', host + '?fdupdate=%s', 'Freelance Directory Update');
       }
