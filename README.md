@@ -57,30 +57,30 @@ A personal directory in which I can add my freelance friends, look for relevant 
 
 Syntax: `web+fdupdate:<EMAIL>/github.com/<USERNAME>/<REPONAME>/commit/<COMMIT>`
 
-Sample URL: `web+fdupdate:scott@whyd.com/github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10`
-
-Sample commit: https://github.com/adrienjoly/freelance-directory-profile
+Sample URL: `web+fdupdate:adri@whyd.com/github.com/adrienjoly/freelance-directory-profile/commit/2987b22c22df618d464af5e44d0d5c32d28e21c2`
 
 The sample URL above informs `freelance-directory-client` that:
 
-- your friend Scott whose email address is `scott@whyd.com` has updated his freelancing info;
-- this update is stored in a commit that can be found there: [github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10](http://github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10), which contains:
+- your friend Adrien whose email address is `adri@whyd.com` has updated his freelancing info;
+- this update is stored in a commit that can be found there: [github.com/adrienjoly/freelance-directory-profile/commit/2987b22c22df618d464af5e44d0d5c32d28e21c2](http://github.com/adrienjoly/freelance-directory-profile/commit/2987b22c22df618d464af5e44d0d5c32d28e21c2), which contains:
 
 ```
 <freelance-directory-profile>
-#nodejs #meteorjs #reactjs #mongodb developer.
+#nodejs #vuejs #reactjs #mongodb developer.
 rate: 120€/hour
-availability: half-time starting in mid-august
-preferences: remote work only
+availability: half-time, but only for collaborations (not for paid missions), cf adrienjoly.com/now
+preferences: remote work only, cf contact page of adrienjoly.com
 </freelance-directory-profile>
 ```
 
 For instance, this update contains:
 
-- technologies that Scott works on professionally, in the form of hashtags;
-- Scott's current hourly rate;
+- technologies that Adrien works on professionally, in the form of hashtags;
+- Adrien's current hourly rate;
 - his current availability;
 - and his current preferences.
+
+**If you want to publish your freelance profile, fork the [freelance-directory-profile](https://github.com/adrienjoly/freelance-directory-profile) repository in your own Github account, and fill it with your own info.**
 
 ## Next steps
 

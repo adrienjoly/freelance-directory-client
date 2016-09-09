@@ -24,7 +24,7 @@
     </pre>
 
     <button id="btnRegisterProtocol">Register protocol</button>
-    <a href="web+fdupdate:scott@whyd.com/github.com/adrienjoly/freelance-directory-client/commit/58525a4a026f25d3a116eef2f0e73ed62c81da10">Test custom protocol handler</a>
+    <a href="web+fdupdate:adri@whyd.com/github.com/adrienjoly/freelance-directory-profile/commit/2987b22c22df618d464af5e44d0d5c32d28e21c2">Test custom protocol handler</a>
 
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
@@ -34,6 +34,7 @@
     window.onload = function() {
 
       document.getElementById('btnRegisterProtocol').onclick = function() {
+        // /!\ this may not work from localhost
         navigator.registerProtocolHandler('web+fdupdate', window.location.href + '?fdupdate=%s', 'Freelance Directory Update');
       }
 
