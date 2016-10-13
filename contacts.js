@@ -4,8 +4,8 @@
   function appendEntries(div, entries) {  
     div.innerHTML = div.innerHTML + entries.map(function(entry){
       var name = (entry.title || {}).$t;
-      var notes = ((entry.content || {}).$t || '').replace(/\n/g, ' // ');
-      return name || notes ? name + ' : ' + notes + '\n' : '';
+      var notes = ((entry.content || {}).$t || '').replace(/\n/g, '<br />\n');
+      return name || notes ? '<h3>' + name + '</h3>\n<p>' + notes + '</p>\n' : '';
     }).join('');
   }
 
@@ -37,12 +37,13 @@
   // binds functions to UI elements
   function bindUI(token) {
     var resultsDiv = document.getElementById('results');
+    var exportDiv = document.getElementById('export');
     document.getElementById('logged').style.display = 'block';
     document.getElementById('btnFetchAll').onclick = function(){
       fetchAllContacts(token, makeAppender(resultsDiv));
     };
     document.getElementById('btnBackup').onclick = function(){
-      backupAllContacts(token, makeAppender(resultsDiv, appendJsonEntries));
+      backupAllContacts(token, makeAppender(exportDiv, appendJsonEntries));
     };
     document.getElementById('search').onsubmit = function(evt) {
       evt.preventDefault();
