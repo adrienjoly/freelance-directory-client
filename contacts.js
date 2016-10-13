@@ -1,6 +1,4 @@
-window.onload = function() {
-
-  console.log('√ onload');
+(function(){
 
   function appendEntries(div, entries) {  
     div.innerHTML = div.innerHTML + entries.map(function(entry){
@@ -32,47 +30,40 @@ window.onload = function() {
       }
     };
   }
-  document.getElementById('btnRegisterProtocol').onclick = function() {
-    var url = window.location.href.replace(/contacts\.html.*/, 'fdupdate.html') + '?fdupdate=%s';
-    console.log('btnRegisterProtocol:', url);
-    // /!\ this may not work from localhost
-    navigator.registerProtocolHandler('web+fdupdate', url, 'Freelance Directory Update');
-  }
 
-  auth(function(err, token){
-
-    if (err) {
-      console.error('auth =>', err);
-    } else {
-      console.log('√ auth');
-    }
-
+  function bindUI(token) {
     var resultsDiv = document.getElementById('results');
-
     document.getElementById('logged').style.display = 'block';
-
     document.getElementById('btnFetchAll').onclick = function(){
       fetchAllContacts(token, makeAppender(resultsDiv));
     };
-
     document.getElementById('btnBackup').onclick = function(){
       backupAllContacts(token, makeAppender(resultsDiv, appendJsonEntries));
     };
-
     document.getElementById('search').onsubmit = function(evt) {
       evt.preventDefault();
       var q = document.getElementById('query').value;
       searchContacts(token, q, makeAppender(resultsDiv));
     };
+  }
 
-    document.getElementById('fetch').onsubmit = function(evt) {
-      evt.preventDefault();
-      var contactId = document.getElementById('fetchContactId').value;
-      fetchContact(token, contactId, function(err, res){
-        console.log(arguments);
-        appendEntries(resultsDiv, [ res.entry ]);
-      });
-    };
+  window.onload = function() {
+    console.log('√ onload');
+    document.getElementById('btnRegisterProtocol').onclick = function() {
+      var url = window.location.href.replace(/contacts\.html.*/, 'fdupdate.html') + '?fdupdate=%s';
+      console.log('btnRegisterProtocol:', url);
+      // /!\ this may not work from localhost
+      navigator.registerProtocolHandler('web+fdupdate', url, 'Freelance Directory Update');
+    }
+    auth(function(err, token){
+      if (err) {
+        console.error('auth =>', err);
+        // TODO: redirect to home page, for login, or at least display feedback
+      } else {
+        console.log('√ auth');
+        bindUI(token);
+      }
+    });
+  };
 
-  });
-};
+})();
