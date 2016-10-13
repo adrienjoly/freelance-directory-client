@@ -25,7 +25,7 @@
       var notes = ((entry.content || {}).$t || '').replace(/\n/g, '<br />\n');
       var photoUrl = getPhotoUrl(entry);
       var jobs = getJobs(entry);
-      photoUrl = photoUrl ? photoUrl + '&access_token=' + token.access_token : '';
+      photoUrl = photoUrl ? photoUrl + '&access_token=' + encodeURIComponent(token.access_token) : '';
       return !(name || notes) ? '' : [
         '<div class="contact" data-id="' + contactId + '">',
         '<div class="photo-container">',
