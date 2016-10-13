@@ -1,5 +1,6 @@
 (function(){
 
+  // used for displaying resulting contacts after a search
   function appendEntries(div, entries) {  
     div.innerHTML = div.innerHTML + entries.map(function(entry){
       var name = (entry.title || {}).$t;
@@ -8,6 +9,7 @@
     }).join('');
   }
 
+  // used by the "backup" feature for rendering contacts in JSON
   function appendJsonEntries(div, entries) {  
     div.innerHTML = div.innerHTML + entries.map(function(entry){
       var fields = {};
@@ -20,6 +22,7 @@
     }).join('');
   }
 
+  // used for displaying contacts on the page
   function makeAppender(div, appendFct) {
     div.innerHTML = '';
     return function (json) {
@@ -31,6 +34,7 @@
     };
   }
 
+  // binds functions to UI elements
   function bindUI(token) {
     var resultsDiv = document.getElementById('results');
     document.getElementById('logged').style.display = 'block';
@@ -47,6 +51,7 @@
     };
   }
 
+  // inits the contacts API and UI on page load
   window.onload = function() {
     console.log('√ onload');
     document.getElementById('btnRegisterProtocol').onclick = function() {
