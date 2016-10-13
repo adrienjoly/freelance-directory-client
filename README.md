@@ -90,4 +90,4 @@ For instance, this update contains:
 
 ## Forking instructions
 
-- After forking, don't forget to set your own Google Client id in `contacts.js`
+- After forking, don't forget to set your own Google Client id in `google-contacts.js`
