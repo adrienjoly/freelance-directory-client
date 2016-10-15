@@ -6,7 +6,11 @@
 
 *Problem statement: It's slow and boring to look for relevant (and available) freelancing friends, when we want to forward a mission to them.*
 
+![Freelance Directory Client Screenshot](/about/homepage.png)
+
 Freelance Directory Client is a personal contacts directory in which I can add my freelance friends, look for relevant ones based on technologies, and subscribe to their updates of skills, preferences and availability (in order to update my directory). It's based on Google Contacts.
+
+![Freelance Directory Client Screenshot](/about/search.png)
 
 - You can try it from: [adrienjoly.com/freelance-directory-client](https://adrienjoly.com/freelance-directory-client)
 - Sample profile, on GitHub: [adrienjoly/freelance-directory-profile](https://github.com/adrienjoly/freelance-directory-profile) (fork it and put your info!)
