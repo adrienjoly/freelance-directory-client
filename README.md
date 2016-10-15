@@ -2,34 +2,25 @@
 
 **=> [backup your contacts](https://www.google.com/contacts/u/0/?cplus=0#contacts), and use at your own risk!**
 
-##Tech stack
+# Freelance Directory Client
 
-- Google Contacts API
-- Github API
+*Problem statement: It's slow and boring to look for relevant (and available) freelancing friends, when we want to forward a mission to them.*
 
-##Problem statement
+Freelance Directory Client is a personal contacts directory in which I can add my freelance friends, look for relevant ones based on technologies, and subscribe to their updates of skills, preferences and availability (in order to update my directory). It's based on Google Contacts.
 
-It's slow and boring to look for relevant (and available) freelancing friends when we want to forward a mission to them
+- You can try it from: [adrienjoly.com/freelance-directory-client](https://adrienjoly.com/freelance-directory-client)
+- Sample profile, on GitHub: [adrienjoly/freelance-directory-profile](https://github.com/adrienjoly/freelance-directory-profile) (fork it and put your info!)
+- The story behing this project: [Side project #6 - Freelance Directory Client](https://www.getrevue.co/profile/aj-sideprojects/issues/side-project-6-freelance-directory-client-23842)
+- Source code: [this repository](https://github.com/adrienjoly/freelance-directory-client)
 
-##Pitch
+## FEATURES: Use cases
 
-A personal directory in which I can add my freelance friends, look for relevant ones based on technologies, and subscribe to their updates of skills, preferences and availability (in order to update my directory)
+- Find relevant and available Freelancers quickly from your contacts, based on the stack/skills of the mission that you want to forward **[WORKING]**
+- Edit the technical stack / skills, preferences, and availability of your Freelancing contacts, manually **[COMING SOON]**
+- Subscribe to your Freelancing contacts, to help you update their info (i.e. stack/skills, prefs, avail.) **[COMING SOON]**
+- As a Freelancer, publish your updates (i.e. stack/skills, prefs, avail.), so that your friends can integrate changes into their directory **[WORKING]**
 
-##Project URLs
-
-- https://www.getrevue.co/profile/aj-sideprojects/issues/side-project-6-freelance-directory-client-23842
-- client: https://github.com/adrienjoly/freelance-directory-client
-- sample profile: https://github.com/adrienjoly/freelance-directory-profile (fork it and put your info!)
-- server: TODO?
-
-##Use cases
-
-- Find relevant and available Freelancers quickly from your contacts, based on the stack/skills of the mission that you want to forward
-- Edit the technical stack / skills, preferences, and availability of your Freelancing contacts, manually
-- Subscribe to your Freelancing contacts, to help you update their info (i.e. stack/skills, prefs, avail.)
-- As a Freelancer, publish your updates (i.e. stack/skills, prefs, avail.), so that your friends can integrate changes into their directory
-
-## Working features / Sample usage from [adrienjoly.com/freelance-directory-client](http://adrienjoly.com/freelance-directory-client/)
+## USAGE: Working features
 
 1. Display and backup your contacts
 
@@ -53,7 +44,18 @@ A personal directory in which I can add my freelance friends, look for relevant 
     + Open the copied URL (`web+fdupdate://...`) in a new tab => the app should open and display the content of the incoming update (a github commit)
     + In the future, you will be able to append up-to-date availability information from a freelancing friend into your corresponding Google Contact. This information will be stored in a Github commit, and pushed to you by email, in the form of a `web+fdupdate://...` link. :-)
 
-## Syntax of custom update URLs
+## PRICING: Is this free to use?
+
+Freelance-directory-client is free, and will always be free to use, for several reasons:
+
+- As a tool that promotes sharing between freelancers and eases the process of our clients to find relevant talent, I'm willing to encourage my peers to use it, without financial barrier.
+- So far, I don't need to setup and maintain a server/back-end infrastructure for this app, so it costs me nothing (but a bit of time to maintain the code).
+
+So I'm happy to offer this product for free! :-)
+
+...And, if I ever change my mind, you will still be able to fork this repo to keep using it for free!
+
+## API: Syntax of custom update URLs
 
 Syntax: `web+fdupdate:<EMAIL>/github.com/<USERNAME>/<REPONAME>/commit/<COMMIT>`
 
@@ -82,12 +84,12 @@ For instance, this update contains:
 
 **If you want to publish your freelance profile, fork the [freelance-directory-profile](https://github.com/adrienjoly/freelance-directory-profile) repository in your own Github account, and fill it with your own info.**
 
-## Next steps
+## ROADMAP: Next steps
 
 - Actually store updates from custom URLs into the corresponding contact
 - Design an actual UI for the product
 - Design+copywriting: make an explanatory landing page with a Google Connect button
 
-## Forking instructions
+## SETUP: Forking instructions
 
 - After forking, don't forget to set your own Google Client id in `google-contacts.js`
