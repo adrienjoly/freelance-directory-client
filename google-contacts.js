@@ -51,7 +51,7 @@ function fetchAll(token, opt, handle) {
   var url = opt.url || (prefix + path + '?alt=json&max-results=1000&v=3.0&q=' + (opt.q ? encodeURIComponent(opt.q) : ''))
   query({
     url: url,
-    dataType: 'jsonp',
+    dataType: 'json',
     data: token
   }, function(err, json) {
     var next;
